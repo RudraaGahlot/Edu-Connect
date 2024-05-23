@@ -28,7 +28,7 @@ export const Combobox = ({
   options,
   value,
   onChange
-}: ComboboxProps) => {
+}: ComboboxProps ) => {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -38,7 +38,7 @@ export const Combobox = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="w-[200px] justify-between"
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -46,14 +46,15 @@ export const Combobox = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search option..." />
+          <CommandInput placeholder="Search framework..." />
           <CommandEmpty>No option found.</CommandEmpty>
           <CommandGroup>
             {options.map((option) => (
               <CommandItem
                 key={option.value}
+                value={option.value}
                 onSelect={() => {
                   onChange(option.value === value ? "" : option.value)
                   setOpen(false)
