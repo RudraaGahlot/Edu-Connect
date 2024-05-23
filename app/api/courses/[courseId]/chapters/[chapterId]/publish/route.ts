@@ -1,16 +1,15 @@
+import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-import { db } from "@/lib/db";
-
 export async function PATCH(
-  req: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+  req:Request,
+{ params } : { params: { courseId: string; chapterId:string } }
 ) {
-  try {
+  try{
     const { userId } = auth();
 
-    if (!userId) {
+    if(!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -19,9 +18,9 @@ export async function PATCH(
         id: params.courseId,
         userId
       }
-    });
+    })
 
-    if (!ownCourse) {
+    if(!ownCourse) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -38,8 +37,8 @@ export async function PATCH(
       }
     });
 
-    if (!chapter || !muxData || !chapter.title || !chapter.description || !chapter.videoUrl) {
-      return new NextResponse("Missing required fields", { status: 400 });
+    if(!chapter || !muxData || !chapter.title || !chapter.description || !chapter.videoUrl) {
+      return new NextResponse("Missing requires fields", { status: 400 });
     }
 
     const publishedChapter = await db.chapter.update({
@@ -53,8 +52,11 @@ export async function PATCH(
     });
 
     return NextResponse.json(publishedChapter);
-  } catch (error) {
+
+
+  } catch (error){
     console.log("[CHAPTER_PUBLISH]", error);
-    return new NextResponse("Internal Error", { status: 500 }); 
+    return new NextResponse("Internal Error", { status: 500 });
   }
+  
 }

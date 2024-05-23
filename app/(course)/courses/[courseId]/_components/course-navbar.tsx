@@ -1,36 +1,29 @@
-import { Chapter, Course, UserProgress, Profile } from "@prisma/client"
-
 import { NavbarRoutes } from "@/components/navbar-routes";
-
+import { Chapter, Course, UserProgress } from "@prisma/client";
 import { CourseMobileSidebar } from "./course-mobile-sidebar";
-import { SafeProfile } from "@/types";
 
-interface CourseNavbarProps {
-  course: Course & {
-    chapters: (Chapter & {
-      userProgress: UserProgress[] | null;
-    })[];
-  };
-  progressCount: number;
-  currentProfile?: SafeProfile | null;
+interface CourseNavbarProps{
+    course: Course & {
+        chapters: (Chapter & {
+            userProgress: UserProgress[] | null;
+        })[]
+    };
+    progressCount: number;
 };
 
-
-export const CourseNavbar = ({
-  course,
-  progressCount,
-  currentProfile
+export const CourseNavbar = async ({
+    course,
+    progressCount,
 }: CourseNavbarProps) => {
-
-  return (
-
-      <div className="p-4 border-b h-full flex items-center  shadow-sm">
-        <CourseMobileSidebar
-          course={course}
-          progressCount={progressCount}
-        />
-        <NavbarRoutes currentProfile={currentProfile} />      
-      </div>
-
-  )
+    return ( 
+        <div className="p-4 border-b h-full flex items-center bg-white shadow-sm">
+            <CourseMobileSidebar
+                course={course}
+                progressCount={progressCount}
+            />
+            < NavbarRoutes />
+        </div>
+     );
 }
+ 
+export default CourseNavbar;

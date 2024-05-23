@@ -31,7 +31,7 @@ export const getProgress = async (
     //calucate progress percentage:
     // completed chapters / total published chapters
     const progressPercentage =
-      (validCompletedChapters / publishedChapters.length) * 100;
+      (validCompletedChapters/publishedChapters.length) * 100;
 
     return progressPercentage;
   } catch (error) {

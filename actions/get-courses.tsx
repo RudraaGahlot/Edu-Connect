@@ -3,7 +3,13 @@ import { Category, Course } from "@prisma/client";
 import { getProgress } from "@/actions/get-progress";
 import { db } from "@/lib/db";
 
-import { CourseWithProgressWithCategory } from "@/types";
+// import { CourseWithProgressWithCategory } from "@/types";
+
+type CourseWithProgressWithCategory = Course & {
+  category: Category | null;
+  chapters: { id: string }[];
+  progress: number | null;
+}
 
 type GetCourses = {
   userId: string;
@@ -21,8 +27,8 @@ export const getCourses = async ({
       where: {
         isPublished: true,
         title: {
-                    contains: title,
-                    mode: "insensitive",
+          contains: title,
+          // mode: "insensitive",
         },
         categoryId,
       },
@@ -52,8 +58,8 @@ export const getCourses = async ({
         if (course.purchases.length === 0) {
           return {
             ...course,
-            progress: null, // make progress possibly null
-          };
+            progress: null, 
+          }
         }
     
         const progressPercentage = await getProgress(userId, course.id);
@@ -66,6 +72,7 @@ export const getCourses = async ({
     );
 
     return coursesWithProgress;
+
   } catch (error) {
     console.log("[GET_COURSES]", error);
     return [];
